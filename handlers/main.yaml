@@ -1,0 +1,9 @@
+---
+
+- name: Restart Nginx service
+  service:
+    name: nginx
+    state: restarted
+  when: >
+    nginx_service_started is not defined or
+    not nginx_service_started.changed

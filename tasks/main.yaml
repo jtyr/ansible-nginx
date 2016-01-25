@@ -1,0 +1,88 @@
+---
+
+- name: Test distribution
+  assert:
+    that: >
+      ansible_os_family == "RedHat"
+
+- name: Add EPEL YUM repo
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: "{{ nginx_epel_yumrepo_url }}"
+    gpgcheck: no
+  when: nginx_epel_install
+  tags:
+    - nginx_pkg
+
+- name: Install Nginx
+  package:
+    name: "{{ nginx_pkg }}"
+    state: present
+  notify:
+    - Restart Nginx service
+  tags:
+    - nginx_pkg
+
+- name: Create the Nginx config
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_config_file }}"
+  register: nginx_config_result
+  notify:
+    - Restart Nginx service
+  tags:
+    - nginx_config
+
+- name: Create the Nginx FastCGI config
+  template:
+    src: fastcgi.conf.j2
+    dest: "{{ nginx_fastcgi_config_file }}"
+  register: nginx_fastcgi_config_result
+  notify:
+    - Restart Nginx service
+  tags:
+    - nginx_config
+
+- name: Remove the redundant FastCGI file
+  file:
+    path: "{{ nginx_fastcgi_config_file2 }}"
+    state: absent
+  tags:
+    - nginx_config
+
+- name: Create vhost files
+  template:
+    src: vhost.conf.j2
+    dest: "{{ nginx_vhost_path }}/{{ item.key }}.conf"
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
+  with_dict: nginx_vhost_config
+  register: nginx_vhost_config_result
+  notify:
+    - Restart Nginx service
+  tags:
+    - nginx_config
+    - nginx_config_vhost
+
+- name: Make sure the Nginx services is enabled
+  service:
+    name: nginx
+    enabled: yes
+  tags:
+    - nginx_service
+
+- name: Make sure the Nginx services is running
+  service:
+    name: nginx
+    state: started
+  register: nginx_service_started
+  when: >
+    nginx_config_result is not defined or
+    nginx_fastcgi_config_result is not defined or
+    nginx_vhost_config_result is not defined or
+    not nginx_config_result.changed or
+    not nginx_fastcgi_config_result.changed or
+    not nginx_vhost_config_result.changed
+  tags:
+    - nginx_service
