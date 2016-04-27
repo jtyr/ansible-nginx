@@ -176,8 +176,8 @@ nginx_vhost_config__default__location_root_index: index.html index.htm
 
 # Default root location options
 nginx_vhost_config__default__location_root__default:
-  - root /usr/share/nginx/html
-  - index index.html index.htm
+  - root {{ nginx_vhost_config__default__location_root_root }}
+  - index {{ nginx_vhost_config__default__location_root_index }}
 
 # Custom root location options
 nginx_vhost_config__default__location_root__custom: []

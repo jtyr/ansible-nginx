@@ -57,7 +57,7 @@
     dest: "{{ nginx_vhost_path }}/{{ item.key }}.conf"
     owner: "{{ nginx_user }}"
     group: "{{ nginx_group }}"
-  with_dict: nginx_vhost_config
+  with_dict: "{{ nginx_vhost_config }}"
   register: nginx_vhost_config_result
   notify:
     - Restart Nginx service
