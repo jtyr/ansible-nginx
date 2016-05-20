@@ -57,7 +57,7 @@ nginx_group: nginx
 nginx_epel_install: yes
 
 # EPEL YUM repo URL
-nginx_epel_yumrepo_url: "{{ yumrepo_epel_url | default('https://dl.fedoraproject.org/pub/epel/' + ansible_distribution_major_version + '/' + ansible_userspace_architecture + '/') }}"
+nginx_epel_yumrepo_url: "{{ yumrepo_epel_url | default('https://dl.fedoraproject.org/pub/epel/$releasever/$basearch/') }}"
 
 
 # Path to the nginx.conf file
