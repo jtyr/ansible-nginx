@@ -27,12 +27,14 @@ Usage
   hosts: all
   vars:
     nginx_vhost_config__custom:
-      - server:
-        - listen: 8080
-        - server_name: example.com
-        - "location /":
-          - root: html
-          - index: index.html index.htm
+      # Creates /etc/nginx/conf.d/test.conf
+      test:
+        - server:
+          - listen 8080
+          - server_name example.com
+          - "location /":
+            - root html
+            - index index.html index.htm
   roles:
     - nginx
 ```
