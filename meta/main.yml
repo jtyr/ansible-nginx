@@ -12,4 +12,5 @@ galaxy_info:
         - 7
   categories:
     - web
-dependencies: []
+dependencies:
+  - config_encoder_filters
