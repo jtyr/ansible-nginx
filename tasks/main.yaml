@@ -10,7 +10,8 @@
     name: epel
     description: EPEL YUM repo
     baseurl: "{{ nginx_epel_yumrepo_url }}"
-    gpgcheck: no
+    gpgkey: "{{ nginx_epel_yumrepo_gpgkey }}"
+    params: "{{ nginx_epel_yumrepo_params }}"
   when: nginx_epel_install
   tags:
     - nginx_pkg

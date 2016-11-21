@@ -57,6 +57,12 @@ nginx_epel_install: yes
 # EPEL YUM repo URL
 nginx_epel_yumrepo_url: "{{ yumrepo_epel_url | default('https://dl.fedoraproject.org/pub/epel/$releasever/$basearch/') }}"
 
+# EPEL YUM repo GPG key
+nginx_epel_yumrepo_gpgkey: "{{ yumrepo_epel_gpgkey | default('https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-$releasever') }}"
+
+# Additional EPEL YUM repo params
+nginx_epel_yumrepo_params: "{{ yumrepo_epel_params | default({}) }}"
+
 
 # Path to the nginx.conf file
 nginx_config_file: /etc/nginx/nginx.conf
