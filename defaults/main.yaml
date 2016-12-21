@@ -8,7 +8,7 @@ nginx_user: nginx
 nginx_group: nginx
 
 # Whether to install EPEL YUM repo
-nginx_epel_install: yes
+nginx_epel_install: "{{ yumrepo_epel_install | default(true) }}"
 
 # EPEL YUM repo URL
 nginx_epel_yumrepo_url: "{{ yumrepo_epel_url | default('https://dl.fedoraproject.org/pub/epel/$releasever/$basearch/') }}"
@@ -18,6 +18,21 @@ nginx_epel_yumrepo_gpgkey: "{{ yumrepo_epel_gpgkey | default('https://dl.fedorap
 
 # Additional EPEL YUM repo params
 nginx_epel_yumrepo_params: "{{ yumrepo_epel_params | default({}) }}"
+
+# Whether to install Nginx YUM repo
+nginx_yumrepo_install: no
+
+# Pick the right repo based on the distribution (rhel|centos)
+nginx_yumrepo_url_distro: centos
+
+# Nginx YUM repo URL
+nginx_yumrepo_url: https://nginx.org/packages/{{ nginx_yumrepo_url_distro }}/$releasever/$basearch/
+
+# Nginx YUM repo GPG key
+nginx_yumrepo_gpgkey: https://nginx.org/packages/keys/nginx_signing.key
+
+# Additional Nginx YUM repo params
+nginx_yumrepo_params: {}
 
 
 # Path to the nginx.conf file

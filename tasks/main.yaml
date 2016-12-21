@@ -5,6 +5,17 @@
     that: >
       ansible_os_family == "RedHat"
 
+- name: Add Nginx YUM repo
+  yum_repository:
+    name: nginx
+    description: Nginx YUM repo
+    baseurl: "{{ nginx_yumrepo_url }}"
+    gpgkey: "{{ nginx_yumrepo_gpgkey }}"
+    params: "{{ nginx_yumrepo_params }}"
+  when: nginx_yumrepo_install
+  tags:
+    - nginx_pkg
+
 - name: Add EPEL YUM repo
   yum_repository:
     name: epel
