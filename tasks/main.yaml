@@ -30,7 +30,6 @@
 - name: Install Nginx
   package:
     name: "{{ nginx_pkg }}"
-    state: present
   notify:
     - Restart Nginx service
   tags:
