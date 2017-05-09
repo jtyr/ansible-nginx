@@ -12,7 +12,7 @@
     baseurl: "{{ nginx_yumrepo_url }}"
     gpgkey: "{{ nginx_yumrepo_gpgkey }}"
     params: "{{ nginx_yumrepo_params }}"
-  when: nginx_yumrepo_install
+  when: nginx_yumrepo_install == true
   tags:
     - nginx_pkg
 
@@ -23,7 +23,7 @@
     baseurl: "{{ nginx_epel_yumrepo_url }}"
     gpgkey: "{{ nginx_epel_yumrepo_gpgkey }}"
     params: "{{ nginx_epel_yumrepo_params }}"
-  when: nginx_epel_install
+  when: nginx_epel_install == true
   tags:
     - nginx_pkg
 
