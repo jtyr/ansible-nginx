@@ -66,7 +66,7 @@ nginx_epel_yumrepo_params: "{{ yumrepo_epel_params | default({}) }}"
 # Whether to install Nginx YUM repo
 nginx_yumrepo_install: no
 
-# Pick the right repo based on the distribution (rhel|centos)
+# Pick the right repo based on the distribution (centos|rhel)
 nginx_yumrepo_url_distro: centos
 
 # Nginx YUM repo URL
@@ -77,6 +77,15 @@ nginx_yumrepo_gpgkey: https://nginx.org/packages/keys/nginx_signing.key
 
 # Additional Nginx YUM repo params
 nginx_yumrepo_params: {}
+
+# GPG key for the APT repo
+nginx_apt_repo_key: http://nginx.org/keys/nginx_signing.key
+
+# APT repo distribution (ubuntu|debian)
+nginx_apt_repo_string_distro: ubuntu
+
+# APT repo string
+nginx_apt_repo_string: deb http://nginx.org/packages/{{ nginx_apt_repo_string_distro }}/ {{ ansible_distribution_release }} nginx
 
 
 # Path to the nginx.conf file
