@@ -64,7 +64,7 @@
     dest: "{{ nginx_config_file }}"
   register: nginx_config_result
   notify:
-    - Restart Nginx service
+    - Reload Nginx service
   tags:
     - nginx_config
 
@@ -74,7 +74,7 @@
     dest: "{{ nginx_fastcgi_config_file }}"
   register: nginx_fastcgi_config_result
   notify:
-    - Restart Nginx service
+    - Reload Nginx service
   tags:
     - nginx_config
 
@@ -94,7 +94,7 @@
   with_dict: "{{ nginx_vhost_config }}"
   register: nginx_vhost_config_result
   notify:
-    - Restart Nginx service
+    - Reload Nginx service
   tags:
     - nginx_config
     - nginx_config_vhost

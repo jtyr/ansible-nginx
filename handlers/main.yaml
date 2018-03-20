@@ -4,6 +4,20 @@
   service:
     name: nginx
     state: restarted
+  register: nginx_service_started
   when: >
     nginx_service_started is not defined or
     not nginx_service_started.changed
+
+- name: Reload Nginx service
+  service:
+    name: nginx
+    state: reloaded
+  when: >
+    (
+      nginx_service_started is not defined or
+      not nginx_service_started.changed
+    ) and (
+      nginx_service_restarted is not defined or
+      not nginx_service_restarted.changed
+    )
