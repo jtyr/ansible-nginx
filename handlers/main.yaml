@@ -4,7 +4,7 @@
   service:
     name: nginx
     state: restarted
-  register: nginx_service_started
+  register: nginx_service_restarted
   when: >
     nginx_service_started is not defined or
     not nginx_service_started.changed
