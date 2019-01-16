@@ -2,9 +2,9 @@
 
 galaxy_info:
   author: Jiri Tyr
-  description: Nginx web server
+  description: Role that installs and configures Nginx web server
   license: MIT
-  min_ansible_version: 2.1
+  min_ansible_version: 2.5
   platforms:
     - name: EL
       versions:

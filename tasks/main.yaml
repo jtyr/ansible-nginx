@@ -3,8 +3,8 @@
 - name: Test distribution
   assert:
     that: >
-      ansible_os_family == "RedHat" or
-      ansible_os_family == 'Debian'
+      ansible_facts.os_family == "RedHat" or
+      ansible_facts.os_family == 'Debian'
 
 - name: Add Nginx YUM repo
   yum_repository:
@@ -12,9 +12,9 @@
     description: Nginx YUM repo
     baseurl: "{{ nginx_yumrepo_url }}"
     gpgkey: "{{ nginx_yumrepo_gpgkey }}"
-    params: "{{ nginx_yumrepo_params }}"
+  args: "{{ nginx_yumrepo_params }}"
   when: >
-    ansible_os_family == 'RedHat' and
+    ansible_facts.os_family == 'RedHat' and
     nginx_yumrepo_install == true
   tags:
     - nginx_pkg
@@ -25,9 +25,9 @@
     description: EPEL YUM repo
     baseurl: "{{ nginx_epel_yumrepo_url }}"
     gpgkey: "{{ nginx_epel_yumrepo_gpgkey }}"
-    params: "{{ nginx_epel_yumrepo_params }}"
+  args: "{{ nginx_epel_yumrepo_params }}"
   when: >
-    ansible_os_family == 'RedHat' and
+    ansible_facts.os_family == 'RedHat' and
     nginx_epel_install == true
   tags:
     - nginx_pkg
@@ -36,7 +36,7 @@
   apt_key:
     url: "{{ nginx_apt_repo_key }}"
   when: >
-    ansible_os_family == 'Debian'
+    ansible_facts.os_family == 'Debian'
   tags:
     - nginx_pkg
     - nginx_aptrepo
@@ -44,8 +44,9 @@
 - name: Create Nginx APT repo file
   apt_repository:
     repo: "{{ nginx_apt_repo_string }}"
+  args: "{{ nginx_apt_repo_params }}"
   when: >
-    ansible_os_family == 'Debian'
+    ansible_facts.os_family == 'Debian'
   tags:
     - nginx_pkg
     - nginx_aptrepo

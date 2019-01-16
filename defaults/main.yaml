@@ -41,7 +41,10 @@ nginx_apt_repo_key: http://nginx.org/keys/nginx_signing.key
 nginx_apt_repo_string_distro: ubuntu
 
 # APT repo string
-nginx_apt_repo_string: deb http://nginx.org/packages/{{ nginx_apt_repo_string_distro }}/ {{ ansible_distribution_release }} nginx
+nginx_apt_repo_string: deb http://nginx.org/packages/{{ nginx_apt_repo_string_distro }}/ {{ ansible_facts.distribution_release }} nginx
+
+# Additional APT repo params
+nginx_apt_repo_params: {}
 
 
 # Path to the nginx.conf file

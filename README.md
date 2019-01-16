@@ -26,12 +26,24 @@ Usage
 - name: My play
   hosts: all
   vars:
+    # Override the default vhost
+    nginx_vhost_config__default:
+      default:
+        - server:
+          - listen 80
+          - server_name example.com
+          - root /srv/html
+          - location /:
+              - autoindex on
+              - index index.html
+
+    # Add another vhost
     nginx_vhost_config__custom:
       # Creates /etc/nginx/conf.d/test.conf
       test:
         - server:
           - listen 8080
-          - server_name example.com
+          - server_name web1.example.com
           - "location /":
             - root html
             - index index.html index.htm
@@ -85,7 +97,10 @@ nginx_apt_repo_key: http://nginx.org/keys/nginx_signing.key
 nginx_apt_repo_string_distro: ubuntu
 
 # APT repo string
-nginx_apt_repo_string: deb http://nginx.org/packages/{{ nginx_apt_repo_string_distro }}/ {{ ansible_distribution_release }} nginx
+nginx_apt_repo_string: deb http://nginx.org/packages/{{ nginx_apt_repo_string_distro }}/ {{ ansible_facts.distribution_release }} nginx
+
+# Additional APT repo params
+nginx_apt_repo_params: {}
 
 
 # Path to the nginx.conf file
@@ -323,13 +338,10 @@ nginx_vhost_config__default:
 # Custom vhosts
 nginx_vhost_config__custom: {}
 
-nginx_vhost_config__tmp: {}
-
 # Final list of vhost files and their configurations
 nginx_vhost_config: "{{
-  nginx_vhost_config__tmp.update(nginx_vhost_config__default) }}{{
-  nginx_vhost_config__tmp.update(nginx_vhost_config__custom) }}{{
-  nginx_vhost_config__tmp }}"
+  nginx_vhost_config__default | combine(
+  nginx_vhost_config__custom) }}"
 ```
 
 
